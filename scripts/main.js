@@ -1,6 +1,5 @@
 const player1color = '#ff0000';
 const player2color = '#0000ff';
-import ai from './ai.js';
 
 var currentPlayer = 1;
 
