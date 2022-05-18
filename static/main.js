@@ -116,15 +116,10 @@ function move(player, pos) {
 	return allowedTinyGame;
 }
 
-$(document).ready(function() {
-	$(".tinySquare").click(function() {
-		let tinySquareIndex = $(this).index();
-		let tinyGameIndex = $(this).parent().index();
-		if (!matrix[tinyGameIndex][tinySquareIndex] && allowedTinyGame == tinyGameIndex || allowedTinyGame == 'all') {
-			move(currentPlayer, [tinyGameIndex, tinySquareIndex]);
-			let botMove = ai(matrix, allowedTinyGame); // returns position array [tinyGameIndex, tinySquareIndex]
-			move(currentPlayer, botMove);
-
-		}
-	});
+$(".tinySquare").click(function() {
+	let tinySquareIndex = $(this).index();
+	let tinyGameIndex = $(this).parent().index();
+	if (!matrix[tinyGameIndex][tinySquareIndex] && allowedTinyGame == tinyGameIndex || allowedTinyGame == 'all') {
+		move(currentPlayer, [tinyGameIndex, tinySquareIndex]);
+	}
 });
