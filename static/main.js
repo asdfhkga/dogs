@@ -119,7 +119,7 @@ function move(player, pos) {
 $(".tinySquare").click(function() {
 	let tinySquareIndex = $(this).index();
 	let tinyGameIndex = $(this).parent().index();
-	if (!matrix[tinyGameIndex][tinySquareIndex] && allowedTinyGame == tinyGameIndex || allowedTinyGame == 'all') {
+	if (matrix[tinyGameIndex][tinySquareIndex] == 0 && (allowedTinyGame == tinyGameIndex || allowedTinyGame == 'all')) {
 		move(currentPlayer, [tinyGameIndex, tinySquareIndex]);
 	}
 });
