@@ -1,4 +1,5 @@
 const player1color = '#ff0000';
+
 const player2color = '#0000ff';
 
 var currentPlayer = 1;
@@ -119,7 +120,7 @@ function move(player, pos) {
 $(".tinySquare").click(function() {
 	let tinySquareIndex = $(this).index();
 	let tinyGameIndex = $(this).parent().index();
-	if (matrix[tinyGameIndex][tinySquareIndex] == 0 && (allowedTinyGame == tinyGameIndex || allowedTinyGame == 'all')) {
+	if (!matrix[tinyGameIndex][tinySquareIndex] && (allowedTinyGame == tinyGameIndex || allowedTinyGame == 'all')) {
 		move(currentPlayer, [tinyGameIndex, tinySquareIndex]);
 	}
 });
