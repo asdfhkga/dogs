@@ -5,8 +5,8 @@ body {
 .bigGame {
 	display: grid;
 	grid-template: repeat(3, 1fr) / repeat(3, 1fr);
-	width: 500px;
-	height: 500px;
+	width: 576px;
+	height: 576px;
 	margin: 0 auto;
 }
 
@@ -20,5 +20,4 @@ body {
 .tinySquare {
 	box-sizing: border-box;
 	border: 1px solid white;
-	background-color:;
 }

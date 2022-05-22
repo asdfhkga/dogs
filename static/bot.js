@@ -6,30 +6,32 @@ function copyMatrix(matrix) {
 	return copied;
 }
 
-function isAvailable(matrix) {
+function isAvailable(arr) {
 	// detects if tiny game can be the allowedTinyGame
-	return matrix.includes(0);
+	return arr.includes(0);
 }
 
-function Board(matrix, allowedTinyGame) {
+function Board(matrix, allowedTinyGame, depth, isMaximizing) {
 	this.matrix = matrix;
 	this.allowedTinyGame = allowedTinyGame;
+	this.depth = depth
+	this.isMaximizing = true;
 
-	this.generatePossibleBoards = function(player) {
+	this.generatePossibleBoards = function() {
 		possibleBoards = [];
 		if (allowedTinyGame == 'all') {
-			// for i in matrix that is 0, make a new Board object where i is 2 with correct allowedTinyGame
-			for (const tinyGame in this.matrix) {
-				for (const tinySquare in tinyGame) {
-					if (this.matrix[tinyGame][tinySquare] == 0) {
+			// for i in matrix that is 0, make a new Board object where i is player number with correct allowedTinyGame
+			for (const tinyGameIndex in this.matrix) {
+				for (const tinySquareIndex in tinyGameIndex) {
+					if (this.matrix[tinyGameIndex][tinySquareIndex] == 0) {
 						let matrix_clone = copyMatrix(matrix);
-						matrix_clone[tinyGame][tinySquare] = player;
-						if (isAvailable(matrix_clone[tinyGame][tinySquare])) {
-							possibleBoards.push(new Board(matrix_clone, tinySquare));
+						matrix_clone[tinyGameIndex][tinySquareIndex] = this.isMaximizing ? 2 : 1;
+						if (isAvailable(matrix_clone[tinySquareIndex])) {
+							possibleBoards.push(new Board(matrix_clone, tinySquareIndex, this.depth - 1, !this.isMaximizing));
 						}
 
 						else {
-							possibleBoards.push(new Board(matrix_clone, 'all'));
+							possibleBoards.push(new Board(matrix_clone, 'all', this.depth - 1, !this.isMaximizing));
 						}
 					}
 				}
@@ -37,17 +39,18 @@ function Board(matrix, allowedTinyGame) {
 		}
 
 		else {
-			// for i in this.matrix[allowedTinyGame] that is 0, make a new Board object where i is 2 with correct allowedTinyGame
-			for (const tinySquare in this.matrix[allowedTinyGame]) {
-				if (this.matrix[allowedTinyGame][tinySquare] == 0) {
+			// for i in this.matrix[allowedTinyGame] that is 0, make a new Board object where i is player number with correct allowedTinyGame
+			for (const tinySquareIndex in this.matrix[allowedTinyGame]) {
+				if (this.matrix[allowedTinyGame][tinySquareIndex] == 0) {
 					let matrix_clone = copyMatrix(matrix); // creates clone because arrays are passed by refrence
-					matrix_clone[allowedTinyGame][tinySquare] = player;
-					if (isAvailable(matrix_clone[tinySquare])) {
-						possibleBoards.push(new Board(matrix_clone, tinySquare));
+					matrix_clone[allowedTinyGame][tinySquareIndex] = this.isMaximizing ? 2 : 1;
+					if (isAvailable(matrix_clone[tinySquareIndex])) {
+						possibleBoards.push(new Board(matrix_clone, tinySquareIndex, this.depth - 1, !this.isMaximizing));
 					}
 
 					else {
-						possibleBoards.push(new Board(matrix_clone, 'all'));
+						console.log(!this.isMaximizing, this.depth - 1)
+						possibleBoards.push(new Board(matrix_clone, 'all', this.depth - 1, !this.isMaximizing));
 					}
 				}
 			}
@@ -55,26 +58,13 @@ function Board(matrix, allowedTinyGame) {
 		return possibleBoards
 	}
 
+	this.children = this.depth != 0 ? this.generatePossibleBoards() : [];
+
 	this.evaluateBoard = function() {
 
 	}
-}
 
-function prune(BoardArray) { // alpha beta pruning
 
-}
-
-function bot(matrix, allowedTinyGame) {
-	const maxBoards = 50;
-	const maxDepth = 5;
-	var boards = [new board(matrix, allowedTinyGame)];
-	for (int i = 0; i < maxDepth; ++i) {
-		let generatedBoards = [];
-		for (const board of boards) {
-			let possibleBoards = generatePossibleBoards(board);
-			generatedBoards = generatedBoards.concat(possibleBoards);
-		}
-	}
 }
 
 var exampleMatrix = [
@@ -89,4 +79,5 @@ var exampleMatrix = [
 	[1, 1, 1, 1, 1, 1, 1, 1, 1]
 ];
 
-bot(exampleMatrix, 1);
+var board = new Board(exampleMatrix, 7, 1, true);
+console.log(board)
